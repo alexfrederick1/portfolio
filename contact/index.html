@@ -1,1 +1,34 @@
-contact/index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact: Alex Frederick</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../projects/index.html">Projects</a></li>
+            <li><a href="index.html">Contact</a></li>
+            <li><a href="https://github.com/alexfrederick1" target="_blank">GitHub</a></li>
+        </ul>
+    </nav>
+    <h1>Contact: Alex Frederick</h1>
+    <p>You can reach me by filling out the form below:</p>
+
+    <form action="mailto:afrederick@ucsd.edu" method="POST" enctype="text/plain">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+
+        <label for="body">Message:</label><br>
+        <textarea id="body" name="body" rows="4" cols="50" required></textarea><br><br>
+
+        <button>Send Message</button>
+    </form>
+</body>
+</html>
