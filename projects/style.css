@@ -1,6 +1,8 @@
 /* General body styling */
 body {
-  font: 100%/1.5 system-ui;
+  font-family: system-ui, sans-serif;
+  font-size: 100%;
+  line-height: 1.5;
   max-width: 100ch;
   margin-inline: auto;
   padding: 0 1rem;
@@ -39,7 +41,7 @@ form {
 
 form label {
   display: grid;
-  grid-template-columns: subgrid;
+  grid-template-columns: 1fr 1fr; /* Fallback for subgrid */
   grid-column: 1 / -1; /* Span across all columns */
 }
 
@@ -48,7 +50,7 @@ form input, form textarea, form button {
   width: 100%;
   box-sizing: border-box;
   padding: 0.5em;
-  font: inherit;
+  font-family: inherit;
 }
 
 form input, form textarea {
@@ -61,6 +63,7 @@ form button {
   color: white;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 form button:hover {
@@ -108,5 +111,5 @@ h2 {
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.1; /* Smaller line-height for headings */
-  text-wrap: balance; /* Prevent uneven line breaks */
+  word-wrap: break-word; /* Alternative to text-wrap: balance */
 }
