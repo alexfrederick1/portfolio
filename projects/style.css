@@ -1,32 +1,23 @@
+/* General body styling */
 body {
-  /* Set line height to 1.5 times the font size
-     and use the OS’s UI font as the website font */
   font: 100%/1.5 system-ui;
-
-  /* Set a maximum width of 100 characters */
   max-width: 100ch;
-
-  /* Center the content using margin-inline */
   margin-inline: auto;
-
-  /* Add some horizontal padding for smaller screens */
   padding: 0 1rem;
 }
 
+/* Navigation Styling */
 nav ul, nav li {
-  /* Remove default list styling */
   display: contents;
 }
 
 nav {
-  /* Enable Flexbox layout for navigation */
   display: flex;
   margin-bottom: 1rem;
   border-bottom: 1px solid oklch(80% 3% 200);
 }
 
 nav a {
-  /* Flexbox settings for equal spacing */
   flex: 1;
   text-decoration: none;
   color: inherit;
@@ -35,7 +26,87 @@ nav a {
 }
 
 nav a.current {
-  /* Style for the current page link */
   border-bottom: 0.4em solid oklch(80% 3% 200);
   padding-bottom: 0.1em;
+}
+
+/* Contact Form Styling */
+form {
+  display: grid;
+  gap: 1em;
+  margin-top: 2em;
+}
+
+form label {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1; /* Span across all columns */
+}
+
+form input, form textarea, form button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5em;
+  font: inherit;
+}
+
+form input, form textarea {
+  margin-block: 1em;
+}
+
+form button {
+  padding: 1em;
+  background-color: #0053e7;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0035a0;
+}
+
+/* Project Page Styling */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr)); /* Flexible number of columns */
+  gap: 1em; /* Space between grid items */
+  margin-top: 2em; /* Add space above the grid */
+}
+
+.projects article {
+  display: grid;
+  grid-template-rows: subgrid; /* Align content across rows */
+  grid-row: span 3; /* Ensure each article spans 3 rows */
+  gap: 1em; /* Adjust spacing between items inside each article */
+}
+
+.projects h2 {
+  margin: 0; /* Prevent extra space above the heading */
+  font-size: 1.5em; /* Adjust size for clarity */
+}
+
+.projects img {
+  max-width: 100%; /* Make sure images are responsive */
+  height: auto;
+}
+
+.projects p {
+  margin-top: 0.5em; /* Add space between the image and the paragraph */
+}
+
+/* Headings Styling */
+h1 {
+  font-size: 4em; /* Large <h1> for clear contrast */
+  margin-bottom: 1em; /* Space below <h1> */
+}
+
+h2 {
+  font-size: 2.5em; /* Adjust size for headings */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1; /* Smaller line-height for headings */
+  text-wrap: balance; /* Prevent uneven line breaks */
 }
