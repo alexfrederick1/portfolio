@@ -7,7 +7,6 @@ body {
   padding: 20px;
 }
 
-
 nav {
   display: flex;
   margin-bottom: 1em;
@@ -36,10 +35,8 @@ html {
 }
 
 nav a:hover {
-
   border-bottom: 0.4em solid var(--color-accent);
   padding-bottom: 0.1em;
-
 }
 
 /* Contact Form Styling */
@@ -55,11 +52,9 @@ form label {
   grid-column: 1 / -1; 
 }
 
-
 form input, form textarea, form button {
   font: inherit;
 }
-
 
 form input, form textarea {
   margin-block: 1em;
@@ -118,4 +113,65 @@ h2 {
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.1;
   word-wrap: break-word;
+}
+
+/* Apply the color-scheme property to automatically adapt to light/dark mode */
+html {
+  color-scheme: light dark;
+}
+
+/* Adjusting border color for dark mode */
+nav {
+  --border-color: oklch(50% 10% 200 / 40%);
+  /* Other navigation styles */
+}
+
+nav a {
+  border-bottom-color: var(--border-color);
+}
+
+/* Fix hover background color to be better in both modes */
+nav a:hover {
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+}
+
+/* General styling for dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
+  }
+
+  /* Ensure the navigation bar has good contrast */
+  nav {
+    background-color: #333; /* Dark background for nav */
+  }
+
+  /* Adjust borders to blend in better */
+  nav a {
+    border-bottom-color: var(--border-color);
+  }
+
+  /* Optional: Adjust the hover background for dark mode */
+  nav a:hover {
+    background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+  }
+}
+
+/* Position the color scheme switcher at the top right corner */
+.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.8rem;  /* Slightly smaller font */
+  font-family: inherit;  /* Use the same font as the body */
+  background-color: transparent;
+  color: inherit;
+}
+
+.color-scheme select {
+  font-size: inherit;  /* Ensure the font size matches */
+  background-color: transparent;
+  color: inherit;
+  border: none;
 }
