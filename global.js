@@ -70,4 +70,66 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   setColorScheme(selectElement.value);
+
+  async function fetchJSON(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch projects: ${response.statusText}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching or parsing JSON data:', error);
+    }
+  }
+
+  function displayProjects(projects) {
+    const projectsContainer = document.querySelector('.projects');
+    if (!projectsContainer) {
+      console.error('Projects container not found!');
+      return;
+    }
+    projectsContainer.innerHTML = '';
+
+    projects.forEach(project => {
+      const projectArticle = document.createElement('article');
+      const titleElement = document.createElement('h2');
+      titleElement.textContent = project.title;
+      projectArticle.appendChild(titleElement);
+
+      const imageElement = document.createElement('img');
+      imageElement.setAttribute('src', project.image);
+      imageElement.setAttribute('alt', project.title);
+      projectArticle.appendChild(imageElement);
+
+      const descriptionElement = document.createElement('p');
+      descriptionElement.textContent = project.description;
+      projectArticle.appendChild(descriptionElement);
+
+      projectsContainer.appendChild(projectArticle);
+    });
+  }
+
+  fetchJSON('path/to/your/projects.json').then(data => {
+    if (data) {
+      displayProjects(data);
+    }
+  });
+
+  function renderProjects(projects, containerElement, headingLevel = 'h2') {
+    containerElement.innerHTML = ''; // Clear existing content
+
+    projects.forEach(project => {
+      const article = document.createElement('article');
+
+      article.innerHTML = `
+        <${headingLevel}>${project.title}</${headingLevel}>
+        <img src="${project.imgSrc}" alt="${project.title}">
+        <p>${project.description}</p>
+      `;
+      
+      containerElement.appendChild(article);
+    });
+  }
 });
