@@ -18,24 +18,44 @@ async function loadGitHubProfile() {
 
     const githubProfileContainer = document.querySelector('.github-profile');
 
-    const usernameElement = document.createElement('h3');
-    usernameElement.textContent = githubData.login;
+    if (githubProfileContainer) {
+      const usernameElement = document.createElement('h3');
+      usernameElement.textContent = githubData.login;
 
-    const bioElement = document.createElement('p');
-    bioElement.textContent = githubData.bio || 'No bio available';
+      const bioElement = document.createElement('p');
+      bioElement.textContent = githubData.bio || 'No bio available';
 
-    const avatarElement = document.createElement('img');
-    avatarElement.src = githubData.avatar_url;
-    avatarElement.alt = `${githubData.login}'s avatar`;
-    avatarElement.width = 100;
+      const avatarElement = document.createElement('img');
+      avatarElement.src = githubData.avatar_url;
+      avatarElement.alt = `${githubData.login}'s avatar`;
+      avatarElement.width = 100;
 
-    const repoCountElement = document.createElement('p');
-    repoCountElement.textContent = `Public Repositories: ${githubData.public_repos}`;
+      const repoCountElement = document.createElement('p');
+      repoCountElement.textContent = `Public Repositories: ${githubData.public_repos}`;
 
-    githubProfileContainer.appendChild(usernameElement);
-    githubProfileContainer.appendChild(bioElement);
-    githubProfileContainer.appendChild(avatarElement);
-    githubProfileContainer.appendChild(repoCountElement);
+      // Create a grid for stats
+      const statsGrid = document.createElement('dl');
+      statsGrid.style.display = 'grid';
+      statsGrid.style.gridTemplateColumns = '1fr 1fr 1fr 1fr';
+      statsGrid.style.gap = '10px';
+
+      const followersElement = document.createElement('p');
+      followersElement.textContent = `Followers: ${githubData.followers}`;
+      const followingElement = document.createElement('p');
+      followingElement.textContent = `Following: ${githubData.following}`;
+      const publicGistsElement = document.createElement('p');
+      publicGistsElement.textContent = `Public Gists: ${githubData.public_gists}`;
+
+      statsGrid.appendChild(followersElement);
+      statsGrid.appendChild(followingElement);
+      statsGrid.appendChild(publicGistsElement);
+
+      githubProfileContainer.appendChild(usernameElement);
+      githubProfileContainer.appendChild(bioElement);
+      githubProfileContainer.appendChild(avatarElement);
+      githubProfileContainer.appendChild(repoCountElement);
+      githubProfileContainer.appendChild(statsGrid);
+    }
   } catch (error) {
     console.error('Error loading GitHub profile:', error);
   }
