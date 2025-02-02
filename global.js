@@ -5,7 +5,6 @@ function $$(selector, context = document) {
 }
 
 
-//document.addEventListener('DOMContentLoaded', () => {
 let pages = [
   { url: '', title: 'Home' },
   { url: 'projects/', title: 'Projects' },
@@ -42,8 +41,6 @@ for (let p of pages) {
   //currentLink?.classList.add('current');
 
 
-
-  //good
   document.body.insertAdjacentHTML(
     'afterbegin',
     `
@@ -59,16 +56,12 @@ for (let p of pages) {
   );
 
 
-
-
-  //????
   const selectElement = document.getElementById("theme-switcher");
   const savedColorScheme = localStorage.getItem("colorScheme");
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   selectElement.value = savedColorScheme || (prefersDark ? "dark" : "light");
 
 
-  // good
   function setColorScheme(colorScheme) {
     document.documentElement.style.setProperty('color-scheme', colorScheme);
     localStorage.setItem("colorScheme", colorScheme);
@@ -103,10 +96,6 @@ for (let p of pages) {
   }
 
 
-  
-
-
-
   function displayProjects(projects) {
     const projectsContainer = document.querySelector('.projects');
     if (!projectsContainer) {
@@ -139,9 +128,6 @@ for (let p of pages) {
       displayProjects(data);
     }
   });
-
-
-
 
 
   export function renderProjects(project, containerElement, headingLevel = 'h2') {
