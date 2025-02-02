@@ -133,3 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+export async function fetchGitHubData(username) {
+  const response = await fetch(`https://api.github.com/users/${username}`);
+  return await response.json();
+}
