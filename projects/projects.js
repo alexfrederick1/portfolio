@@ -9,20 +9,18 @@ projectsTitle.textContent = `${projects.length} Projects`;
 
 let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
 
-let data = [1, 2];
+let data = [1, 2, 3, 4, 5, 5];
 
 let sliceGenerator = d3.pie();
 let arcData = sliceGenerator(data);
+
 let arcs = arcData.map((d) => arcGenerator(d));
 
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-let svg = d3.select('.projects')
-  .append('svg')
-  .attr('viewBox', '-50 -50 100 100');
-
 arcs.forEach((arc, idx) => {
-  svg.append('path')
+  d3.select('svg')
+    .append('path')
     .attr('d', arc)
     .attr('fill', colors(idx));
 });
