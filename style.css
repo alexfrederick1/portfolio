@@ -177,3 +177,32 @@ nav a:hover {
 
   overflow: visible;
 }
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: 1em;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.swatch {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: var(--color);
+  border-radius: 50%;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
