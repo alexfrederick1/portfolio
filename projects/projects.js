@@ -10,16 +10,16 @@ projectsTitle.textContent = `${projects.length} Projects`;
 let selectedIndex = -1;
 
 function renderPieChart(projectsGiven) {
-    let svg = d3.select('.projects').select('svg');
+    let svg = d3.select('.pie-chart-container').select('svg'); 
     if (svg.empty()) {
-        svg = d3.select('.projects')
+        svg = d3.select('.pie-chart-container')
             .append('svg')
             .attr('width', 200)
             .attr('height', 200);
     }
 
     svg.selectAll('*').remove();
-    
+
     const legend = d3.select('.legend');
     legend.html('');
 
@@ -34,6 +34,7 @@ function renderPieChart(projectsGiven) {
     let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
     let sliceGenerator = d3.pie().value((d) => d.value);
     let arcData = sliceGenerator(data);
+
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     const g = svg.append('g').attr('transform', 'translate(100, 100)');
