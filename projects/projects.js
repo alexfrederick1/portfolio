@@ -14,7 +14,14 @@ let selectedIndex = -1;
 let query = '';
 
 function renderPieChart(projectsGiven) {
-    // Rollup data by year and count occurrences correctly
+    // Clear existing chart and legend
+    d3.select('svg').selectAll('path').remove();
+    d3.select('.legend').selectAll('*').remove();
+
+    let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
+    let sliceGenerator = d3.pie().value((d) => d.value);
+
+    // Roll up data by year and count occurrences correctly
     let rolledData = d3.rollups(
         projectsGiven,
         (v) => v.length,
@@ -24,14 +31,9 @@ function renderPieChart(projectsGiven) {
     // Ensure data is rolled up properly
     let data = rolledData.map(([year, count]) => ({ value: count, label: year }));
 
-    console.log("Rolled Data:", data); // Debugging the rolled data to check
+    console.log("Rolled Data:", data); // Debugging
 
-    // Arc Generator and Pie Chart Setup
-    let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
-    let sliceGenerator = d3.pie().value((d) => d.value); // Automatically calculates angles for slices
     let arcData = sliceGenerator(data);
-
-    console.log("Arc Data:", arcData); // Debugging the arc data to check
 
     // Color scale for distinct colors for each slice
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
@@ -44,7 +46,6 @@ function renderPieChart(projectsGiven) {
             .attr('width', 200)
             .attr('height', 200);
     }
-    svg.selectAll('*').remove(); // Clear previous chart if exists
 
     const g = svg.append('g').attr('transform', 'translate(100, 100)');
 
@@ -60,9 +61,6 @@ function renderPieChart(projectsGiven) {
             selectedIndex = selectedIndex === i ? -1 : i;
 
             g.selectAll('path')
-                .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
-
-            legend.selectAll('li')
                 .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
 
             let filteredProjects = (selectedIndex === -1) 
@@ -96,9 +94,9 @@ searchInput.addEventListener('input', (event) => {
         let values = Object.values(project).join('\n').toLowerCase();
         return values.includes(query.toLowerCase());
     });
-    
+
     selectedIndex = -1;
-    
+
     renderProjects(filteredProjects, projectsContainer, 'h2');
     renderPieChart(filteredProjects);
 });
