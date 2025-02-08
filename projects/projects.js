@@ -7,23 +7,26 @@ const projectsContainer = document.querySelector('.projects');
 const projectsTitle = document.querySelector('.projects-title');
 projectsTitle.textContent = `${projects.length} Projects`;
 
+// Group projects by year and count the number of projects in each year
+let rolledData = d3.rollups(
+  projects,
+  (v) => v.length,
+  (d) => d.year
+);
+
+// Convert the grouped data into the required format
+let data = rolledData.map(([year, count]) => ({
+  value: count,
+  label: year
+}));
+
+// Pie chart setup
 let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-
-let data = [
-  { value: 1, label: 'apples' },
-  { value: 2, label: 'oranges' },
-  { value: 3, label: 'mangos' },
-  { value: 4, label: 'pears' },
-  { value: 5, label: 'limes' },
-  { value: 5, label: 'cherries' },
-];
-
 let sliceGenerator = d3.pie().value((d) => d.value);
 let arcData = sliceGenerator(data);
-
-let arcs = arcData.map((d) => arcGenerator(d));
-
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+arcs = arcData.map((d) => arcGenerator(d));
 
 arcs.forEach((arc, idx) => {
   d3.select('svg')
@@ -32,6 +35,7 @@ arcs.forEach((arc, idx) => {
     .attr('fill', colors(idx));
 });
 
+// Create a legend for the pie chart
 let legend = d3.select('.projects').append('ul').attr('class', 'legend');
 
 legend.selectAll('li')
