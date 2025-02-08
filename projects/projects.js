@@ -7,9 +7,7 @@ let fetch_url = location.pathname.includes('/portfolio/')
 
 const projects = await fetchJSON(fetch_url);
 const projectsContainer = document.querySelector('.projects');
-
 const projectsTitle = document.querySelector('.projects-title');
-projectsTitle.textContent = `${projects.length} Projects`;
 
 let selectedIndex = -1;
 
@@ -27,6 +25,7 @@ function renderPieChart(projectsGiven) {
     const legend = d3.select('.legend');
     legend.html('');
 
+    // Rollup data by year and count the occurrences
     let rolledData = d3.rollups(
         projectsGiven,
         (v) => v.length,
@@ -39,8 +38,8 @@ function renderPieChart(projectsGiven) {
     let sliceGenerator = d3.pie().value((d) => d.value);
     let arcData = sliceGenerator(data);
 
-    // Using a more flexible color scale
-    let colors = d3.scaleOrdinal(d3.schemeCategory20);
+    // Color scale for distinct colors for each slice
+    let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     const g = svg.append('g').attr('transform', 'translate(100, 100)');
 
@@ -49,7 +48,7 @@ function renderPieChart(projectsGiven) {
         .enter()
         .append('path')
         .attr('d', arcGenerator)
-        .attr('fill', (_, i) => colors(i))
+        .attr('fill', (_, i) => colors(i)) // Use color scale for each slice
         .attr('class', (_, i) => i === selectedIndex ? 'selected' : '')
         .on('click', (_, i) => {
             selectedIndex = selectedIndex === i ? -1 : i;
@@ -67,6 +66,7 @@ function renderPieChart(projectsGiven) {
             renderProjects(filteredProjects, projectsContainer, 'h2');
         });
 
+    // Render legend
     legend.selectAll('li')
         .data(data)
         .enter()
@@ -76,7 +76,6 @@ function renderPieChart(projectsGiven) {
         .html((d) => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
 
     projectsTitle.textContent = `${projects.length} Projects`;
-    renderProjects(projects, projectsContainer, 'h2');
 }
 
 renderProjects(projects, projectsContainer, 'h2');
