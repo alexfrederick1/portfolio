@@ -28,7 +28,7 @@ function renderPieChart(projectsGiven) {
 
     // Arc Generator and Pie Chart Setup
     let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
-    let sliceGenerator = d3.pie().value((d) => d.value);
+    let sliceGenerator = d3.pie().value((d) => d.value); // Automatically calculates angles for slices
     let arcData = sliceGenerator(data);
 
     console.log("Arc Data:", arcData); // Debugging the arc data to check
