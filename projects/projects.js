@@ -14,6 +14,11 @@ let selectedIndex = -1;
 let query = ''; 
 
 function renderPieChart(projectsGiven) {
+    if (!projectsGiven || projectsGiven.length === 0) {
+        console.error("No data available for pie chart rendering.");
+        return;
+    }
+
     const rolledData = d3.rollups(
         projectsGiven,
         (v) => v.length,
@@ -28,8 +33,12 @@ function renderPieChart(projectsGiven) {
     const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     const svg = d3.select('svg');
-    svg.selectAll('*').remove();
+    if (svg.empty()) {
+        console.error("SVG element not found.");
+        return;
+    }
 
+    svg.selectAll('*').remove();
     const legend = d3.select('.legend');
     legend.selectAll('*').remove();
 
@@ -43,7 +52,6 @@ function renderPieChart(projectsGiven) {
                 selectedIndex = selectedIndex === i ? -1 : i;
                 svg.selectAll('path').attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
                 legend.selectAll('li').attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
-                
                 updateProjectsDisplay();
             });
     });
