@@ -23,9 +23,13 @@ function renderPieChart(projectsGiven) {
 
     let data = rolledData.map(([year, count]) => ({ value: count, label: year }));
 
+    console.log("Rolled Data:", data); // Debugging the rolled data
+
     let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
     let sliceGenerator = d3.pie().value((d) => d.value);
     let arcData = sliceGenerator(data);
+
+    console.log("Arc Data:", arcData); // Debugging the arc data
 
     // Color scale for distinct colors for each slice
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
