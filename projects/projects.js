@@ -7,6 +7,9 @@ const projectsContainer = document.querySelector('.projects');
 const projectsTitle = document.querySelector('.projects-title');
 projectsTitle.textContent = `${projects.length} Projects`;
 
+// Debugging: Check fetched data
+console.log("Fetched projects:", projects);
+
 // Group projects by year and count the number of projects in each year
 let rolledData = d3.rollups(
   projects,
@@ -14,25 +17,41 @@ let rolledData = d3.rollups(
   (d) => d.year
 );
 
+// Debugging: Check grouped data
+console.log("Rolled Data:", rolledData);
+
 // Convert the grouped data into the required format
 let data = rolledData.map(([year, count]) => ({
   value: count,
   label: year
 }));
 
+console.log("Final Pie Data:", data);
+
+// Select or create an SVG element
+let svg = d3.select('.projects svg');
+
+if (svg.empty()) {
+  svg = d3.select('.projects')
+    .append('svg')
+    .attr('width', 300)
+    .attr('height', 300);
+}
+
 // Pie chart setup
-let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+let arcGenerator = d3.arc().innerRadius(0).outerRadius(100);
 let sliceGenerator = d3.pie().value((d) => d.value);
 let arcData = sliceGenerator(data);
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-arcs = arcData.map((d) => arcGenerator(d));
+// Generate arcs
+let arcs = arcData.map((d) => arcGenerator(d));
 
 arcs.forEach((arc, idx) => {
-  d3.select('svg')
-    .append('path')
+  svg.append('path')
     .attr('d', arc)
-    .attr('fill', colors(idx));
+    .attr('fill', colors(idx))
+    .attr('transform', 'translate(150, 150)');  // Centering
 });
 
 // Create a legend for the pie chart
