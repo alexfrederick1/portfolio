@@ -32,25 +32,47 @@ function renderPieChart(projectsGiven) {
     let arcs = arcData.map((d) => arcGenerator(d));
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-    arcs.forEach((arc, idx) => {
-    d3.select('svg')
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', colors(idx));
+    svg.selectAll('path')
+    .data(arcData)
+    .enter()
+    .append('path')
+    .attr('d', (d) => arcGenerator(d))
+    .attr('fill', (_, i) => colors(i))
+    .attr('class', (_, i) => i === selectedIndex ? 'selected' : '')
+    .on('click', (_, i) => {
+        selectedIndex = selectedIndex === i ? -1 : i;
+
+        svg.selectAll('path')
+            .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
+
+        legend.selectAll('li')
+            .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
+
+        let filteredProjects = (selectedIndex === -1) 
+            ? projects 
+            : projects.filter(p => p.year === data[selectedIndex].label);
+
+        renderProjects(filteredProjects, projectsContainer, 'h2');
     });
 
-    // Create a legend for the pie chart
-    let legend = d3.select('.projects').append('ul').attr('class', 'legend');
-
+    // Append legend items
     legend.selectAll('li')
-    .data(data)
-    .enter()
-    .append('li')
-    .html((d, idx) => {
-        return `
-        <span class="swatch" style="background-color: ${colors(idx)};"></span>
-        ${d.label} <em>(${d.value})</em>
-        `;
+        .data(data)
+        .enter()
+        .append('li')
+        .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '')
+        .attr('style', (_, idx) => `--color:${colors(idx)}`)
+        .html((d) => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+
+    projectsTitle.textContent = `${projects.length} Projects`;
+    renderProjects(projects, projectsContainer, 'h2');
+    renderPieChart(projects);
+
+    searchInput.addEventListener('input', (event) => {
+        query = event.target.value.toLowerCase();
+        let filteredProjects = projects.filter((project) =>
+            Object.values(project).join('\n').toLowerCase().includes(query)
+        );
     });
 
 }
