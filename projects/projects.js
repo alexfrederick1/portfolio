@@ -14,28 +14,30 @@ let selectedIndex = -1;
 let query = '';
 
 function renderPieChart(projectsGiven) {
-    // Rollup data by year and count occurrences
+    // Rollup data by year and count occurrences correctly
     let rolledData = d3.rollups(
         projectsGiven,
         (v) => v.length,
         (d) => d.year
     );
 
+    // Ensure data is rolled up properly
     let data = rolledData.map(([year, count]) => ({ value: count, label: year }));
 
-    console.log("Rolled Data:", data); // Debugging the rolled data
+    console.log("Rolled Data:", data); // Debugging the rolled data to check
 
+    // Arc Generator and Pie Chart Setup
     let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
     let sliceGenerator = d3.pie().value((d) => d.value);
     let arcData = sliceGenerator(data);
 
-    console.log("Arc Data:", arcData); // Debugging the arc data
+    console.log("Arc Data:", arcData); // Debugging the arc data to check
 
     // Color scale for distinct colors for each slice
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     // Set up the SVG element
-    let svg = d3.select('.pie-chart-container').select('svg'); 
+    let svg = d3.select('.pie-chart-container').select('svg');
     if (svg.empty()) {
         svg = d3.select('.pie-chart-container')
             .append('svg')
