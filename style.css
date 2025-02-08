@@ -1,16 +1,31 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  --color-accent: #723d46;
+  --color-legend: #d9d9d9;
+  --border-color: oklch(50% 10% 200 / 40%);
+  color-scheme: light dark;
+}
+
 body {
-  font-family: system-ui, sans-serif;
-  font-size: 100%;
-  line-height: 1.5;
-  max-width: 100ch;
+  font: 100%/1.5 system-ui;
+  max-width: 60rem;
   margin-inline: auto;
-  padding: 20px;
+  padding: 1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
 }
 
 nav {
   display: flex;
-  margin-bottom: 1em;
-  border-bottom: 1px solid oklch(80% 3% 200);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
 }
 
 nav a {
@@ -21,22 +36,37 @@ nav a {
   padding: 0.5em;
 }
 
-nav a.current {
-  border-bottom: 0.4em solid oklch(80% 3% 200);
-  padding-bottom: 0.1em;
+a {
+  text-decoration: none;
+  color: var(--color-accent);
 }
 
-:root {
-  --color-accent: oklch(65% 50% 0)
-}
-
-html {
-  accent-color: var(--color-accent);
+a:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
 }
 
 nav a:hover {
   border-bottom: 0.4em solid var(--color-accent);
-  padding-bottom: 0.1em;
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+.curr {
+  border-bottom: 0.4em solid var(--border-color);
+  margin-bottom: 0em;
+}
+
+h1,
+#photo {
+  margin-bottom: 1.5rem;
+}
+
+input, textarea, button, select {
+  font-family: inherit;
 }
 
 form {
@@ -45,178 +75,138 @@ form {
   gap: 1em;
 }
 
-form label {
+label {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column: 1 / -1; 
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
 }
 
-form input, form textarea, form button {
-  font: inherit;
-}
-
-form input, form textarea {
-  margin-block: 1em;
-}
-
-form button {
-  padding: 1em;
-  background-color: #0053e7;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-form button:hover {
-  background-color: #0035a0;
+button {
+  grid-column: 1 / -1;
 }
 
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
   gap: 1em;
-  margin-top: 2em;
-}
-
-.projects article {
-  display: grid;
   grid-template-rows: subgrid;
   grid-row: span 3;
-  gap: 1em;
-}
-
-.projects h2 {
-  margin: 0;
-  font-size: 1.5em;
-}
-
-.projects img {
-  max-width: 100%;
-  height: auto;
-}
-
-.projects p {
-  margin-top: 0.5em;
 }
 
 h1 {
-  font-size: 4em; 
-  margin-bottom: 1em; 
+  margin: 0;
+  font-size: 400%;
 }
 
-h2 {
-  font-size: 2.5em;
+article {
+  gap: 1em;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1.1;
-  word-wrap: break-word;
+ul {
+  margin-left: 20px;
 }
 
-html {
-  color-scheme: light dark;
-}
-
-nav {
-  --border-color: oklch(50% 10% 200 / 40%);
-}
-
-nav a {
-  border-bottom-color: var(--border-color);
-}
-
-
-nav a:hover {
-  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
-}
-
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #121212;
-    color: #e0e0e0; 
-  }
-
-
-  nav {
-    background-color: #333; 
-  }
-
-
-  nav a {
-    border-bottom-color: var(--border-color);
-  }
-
-
-  nav a:hover {
-    background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
-  }
+ul ul {
+  margin-left: 40px;
 }
 
 .color-scheme {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 0.8rem; 
-  font-family: inherit; 
-  background-color: transparent;
-  color: inherit;
+  font-size: 80%;
 }
 
-.color-scheme select {
-  font-size: inherit; 
-  background-color: transparent;
-  color: inherit;
-  border: none;
+#latest-projs {
+  padding-top: 1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.stat-item dt {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.stat-item dd {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+article img {
+  max-width: 90%;
+  height: auto;
+}
+
+article h3 {
+  text-align: left;
+}
+
+.pie-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5em;
+  padding-bottom: 2em;
 }
 
 #projects-pie-plot {
   max-width: 20em;
   margin-block: 2em;
-
   overflow: visible;
 }
 
 .legend {
+  border: 2px solid var(--color-legend);
+  border-radius: 3px;
+  padding: 0.5em;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-  gap: 1em;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-top: 20px;
+  flex: 1;
 }
 
-.legend li {
+.legend-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 0.5em;
 }
 
 .swatch {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  background-color: var(--color);
+  width: 10px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
+  background-color: var(--color);
 }
 
-.container {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+li em {
+  color: var(--color-legend);
 }
 
 &:has(path:hover) {
   path:not(:hover) {
     opacity: 0.5;
   }
-}
 
-path {
-  transition: 300ms;
-  cursor: pointer;
-
+  path {
+    transition: 200ms;
+  }
 }
 
 .selected {
@@ -227,63 +217,6 @@ path {
   }
 }
 
-#projects-pie-plot {
-  max-width: 20em;
-  margin-block: 2em;
-  overflow: visible;
-  display: flex;
-  justify-content: center; /* Center the pie chart */
-}
-
-/* Styling for pie chart path (slices) */
-.pie-chart-wrapper svg path {
-  transition: 300ms;
+path {
   cursor: pointer;
-  stroke: white; /* Add a white stroke to make slices stand out */
-  stroke-width: 1px;
-}
-
-/* Add hover effects for pie slices */
-.pie-chart-wrapper svg path:hover {
-  opacity: 0.7;
-}
-
-/* Styling for selected pie slices */
-.selected {
-  opacity: 1 !important; /* Ensure the selected slice is fully opaque */
-  stroke: black;
-  stroke-width: 2px;
-}
-
-/* Legend styling */
-.legend {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-  gap: 1em;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-top: 20px;
-}
-
-/* Legend list item styling */
-.legend li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Swatch color block for the legend */
-.legend .swatch {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  border-radius: 50%;
-  background-color: var(--color); /* Dynamically set color for each slice */
-}
-
-/* Center the container for pie chart */
-.container {
-  display: flex;
-  align-items: center;
-  gap: 20px;
 }
