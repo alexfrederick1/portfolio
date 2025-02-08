@@ -5,7 +5,7 @@ let fetch_url = location.pathname.includes('/portfolio/')
     ? '/portfolio/lib/projects.json' 
     : '../lib/projects.json';
 
-const projects = await fetchJSON('../lib/projects.json');
+const projects = await fetchJSON(fetch_url);
 const projectsContainer = document.querySelector('.projects');
 
 const projectsTitle = document.querySelector('.projects-title');
@@ -38,7 +38,9 @@ function renderPieChart(projectsGiven) {
     let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
     let sliceGenerator = d3.pie().value((d) => d.value);
     let arcData = sliceGenerator(data);
-    let colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+    // Using a more flexible color scale
+    let colors = d3.scaleOrdinal(d3.schemeCategory20);
 
     const g = svg.append('g').attr('transform', 'translate(100, 100)');
 
