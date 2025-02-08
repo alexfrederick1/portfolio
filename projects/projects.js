@@ -11,7 +11,7 @@ const projectsTitle = document.querySelector('.projects-title');
 const searchInput = document.querySelector('.searchBar');
 
 let selectedIndex = -1;
-let query = '';
+let query = ''; 
 
 function renderPieChart(projectsGiven) {
     const rolledData = d3.rollups(
