@@ -5,6 +5,9 @@ let fetch_url = location.pathname.includes('/portfolio/')
     ? '/portfolio/lib/projects.json' 
     : '../lib/projects.json';
 
+
+let query = '';
+
 const projects = await fetchJSON(fetch_url);
 const projectsContainer = document.querySelector('.projects');
 const projectsTitle = document.querySelector('.projects-title');
