@@ -31,10 +31,10 @@ function renderPieChart(projectsGiven) {
 
     let data = rolledData.map(([year, count]) => ({ value: count, label: year }));
 
-    let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
     let sliceGenerator = d3.pie().value((d) => d.value);
     let arcData = sliceGenerator(data);
 
+    let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     const g = svg.append('g').attr('transform', 'translate(100, 100)');
