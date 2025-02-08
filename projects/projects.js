@@ -3,23 +3,23 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
 const projects = await fetchJSON('../lib/projects.json');
 const projectsContainer = document.querySelector('.projects');
-const projectTitle = document.querySelector('.projects-title'); // Update this selector for project title
 
-projectTitle.innerHTML = `${projects.length} Projects`; // Dynamically set the project title
+const projectsTitle = document.querySelector('.projects-title');
+projectsTitle.textContent = `${projects.length} Projects`;
 
 let selectedIndex = -1;
 
 function renderPieChart(projectsGiven) {
-    let svg = d3.select('.pie-chart-container').select('svg'); // Ensure the container has a .pie-chart-container class
+    let svg = d3.select('.projects').select('svg');
     if (svg.empty()) {
-        svg = d3.select('.pie-chart-container')
+        svg = d3.select('.projects')
             .append('svg')
             .attr('width', 200)
             .attr('height', 200);
     }
 
-    svg.selectAll('*').remove(); // Remove previous SVG elements
-
+    svg.selectAll('*').remove();
+    
     const legend = d3.select('.legend');
     legend.html('');
 
@@ -31,20 +31,24 @@ function renderPieChart(projectsGiven) {
 
     let data = rolledData.map(([year, count]) => ({ value: count, label: year }));
 
-    let sliceGenerator = d3.pie().value((d) => d.value);
-    let arcData = sliceGenerator(data);
-
+    // Set up arc generator
     let arcGenerator = d3.arc().innerRadius(0).outerRadius(80);
-    let colors = d3.scaleOrdinal(d3.schemeTableau10); // You can also try d3.schemeCategory20 if you need more colors
+    // Set up pie generator
+    let sliceGenerator = d3.pie().value((d) => d.value);
+    // Generate arc data based on the pie chart
+    let arcData = sliceGenerator(data);
+    // Set up colors using the d3 scheme
+    let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     const g = svg.append('g').attr('transform', 'translate(100, 100)');
 
+    // Draw each arc with the appropriate color
     g.selectAll('path')
         .data(arcData)
         .enter()
         .append('path')
-        .attr('d', arcGenerator)
-        .attr('fill', (_, i) => colors(i)) // Use colors(i) to ensure each slice gets a different color
+        .attr('d', (d) => arcGenerator(d))
+        .attr('fill', (_, i) => colors(i))  // Color the slices based on the index
         .attr('class', (_, i) => i === selectedIndex ? 'selected' : '')
         .on('click', (_, i) => {
             selectedIndex = selectedIndex === i ? -1 : i;
@@ -62,6 +66,7 @@ function renderPieChart(projectsGiven) {
             renderProjects(filteredProjects, projectsContainer, 'h2');
         });
 
+    // Create legend
     legend.selectAll('li')
         .data(data)
         .enter()
@@ -70,8 +75,9 @@ function renderPieChart(projectsGiven) {
         .attr('style', (_, idx) => `--color:${colors(idx)}`)
         .html((d) => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
 
-    projectTitle.innerHTML = `${projects.length} Projects`; // Reupdate the title here if needed
+    projectsTitle.textContent = `${projects.length} Projects`;
     renderProjects(projects, projectsContainer, 'h2');
 }
 
+renderProjects(projects, projectsContainer, 'h2');
 renderPieChart(projects);
