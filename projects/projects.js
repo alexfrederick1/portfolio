@@ -14,11 +14,10 @@ let selectedIndex = -1;
 let query = '';
 
 function renderPieChart(projectsGiven) {
-
     let rolledData = d3.rollups(
         projectsGiven,
         (v) => v.length,
-        (d) => d.year,
+        (d) => d.year
     );
 
     let data = rolledData.map(([year, count]) => {
@@ -27,14 +26,12 @@ function renderPieChart(projectsGiven) {
 
     let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
     let sliceGenerator = d3.pie().value((d) => d.value);
-
     let arcData = sliceGenerator(data);
     let arcs = arcData.map((d) => arcGenerator(d));
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-    let svg = d3.select('svg');
+    let svg = d3.select('.pie-chart-wrapper svg');
     svg.selectAll('path').remove();
-
     let legend = d3.select('.legend');
     legend.selectAll('*').remove();
 
@@ -57,7 +54,8 @@ function renderPieChart(projectsGiven) {
 
                 if (selectedIndex === -1) {
                     renderProjects(projects, projectsContainer, 'h2');
-                } else {
+                } 
+                else {
                     let selectedYear = data[selectedIndex].label;
                     let filteredProjects = projects.filter(p => p.year === selectedYear);
                     renderProjects(filteredProjects, projectsContainer, 'h2');
@@ -85,6 +83,7 @@ searchInput.addEventListener('input', (event) => {
     });
 
     selectedIndex = -1;
+    
     renderProjects(filteredProjects, projectsContainer, 'h2');
     renderPieChart(filteredProjects);
 });
