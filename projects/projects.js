@@ -27,8 +27,11 @@ function renderPieChart(projectsGiven) {
     const arcs = arcData.map(d => arcGenerator(d));
     const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-    const svg = d3.select('svg').selectAll('path').remove();
-    const legend = d3.select('.legend').selectAll('*').remove();
+    const svg = d3.select('svg');
+    svg.selectAll('*').remove();
+
+    const legend = d3.select('.legend');
+    legend.selectAll('*').remove();
 
     arcs.forEach((arc, i) => {
         svg
