@@ -232,30 +232,26 @@ path {
   margin-block: 2em;
   overflow: visible;
   display: flex;
-  justify-content: center; /* Center the pie chart */
+  justify-content: center; 
 }
 
-/* Styling for pie chart path (slices) */
 .pie-chart-wrapper svg path {
   transition: 300ms;
   cursor: pointer;
-  stroke: white; /* Add a white stroke to make slices stand out */
+  stroke: white; 
   stroke-width: 1px;
 }
 
-/* Add hover effects for pie slices */
 .pie-chart-wrapper svg path:hover {
   opacity: 0.7;
 }
 
-/* Styling for selected pie slices */
 .selected {
-  opacity: 1 !important; /* Ensure the selected slice is fully opaque */
+  opacity: 1 !important;
   stroke: black;
   stroke-width: 2px;
 }
 
-/* Legend styling */
 .legend {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
@@ -265,23 +261,20 @@ path {
   margin-top: 20px;
 }
 
-/* Legend list item styling */
 .legend li {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Swatch color block for the legend */
 .legend .swatch {
   width: 20px;
   height: 20px;
   display: inline-block;
   border-radius: 50%;
-  background-color: var(--color); /* Dynamically set color for each slice */
+  background-color: var(--color);
 }
 
-/* Center the container for pie chart */
 .container {
   display: flex;
   align-items: center;

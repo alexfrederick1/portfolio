@@ -13,7 +13,6 @@ const searchInput = document.querySelector('.searchBar');
 let selectedIndex = -1;
 let query = '';
 
-// Simplified Pie Chart Rendering with CSS variables
 function renderPieChart(projectsGiven) {
     const rolledData = d3.rollups(
         projectsGiven,
@@ -54,7 +53,6 @@ function renderPieChart(projectsGiven) {
     });
 }
 
-// Function to update project display based on selection or search
 function updateProjectsDisplay() {
     const filteredProjects = selectedIndex === -1 
         ? projects 
