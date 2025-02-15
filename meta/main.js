@@ -1,11 +1,10 @@
 let data = [];
 let commits = [];
 
-
 async function loadData() {
     data = await d3.csv('loc.csv', (row) => ({
         ...row,
-        line: Number(row.line), 
+        line: Number(row.line),
         depth: Number(row.depth),
         length: Number(row.length),
         date: new Date(row.date + 'T00:00' + row.timezone),
@@ -90,16 +89,16 @@ function displayStats() {
     const timeOfDay = dl.append("div");
     timeOfDay.append("dt").text("Most productive time of day");
     timeOfDay.append("dd").text(maxPeriod);
-  }
-  
 
+    // Now call the scatterplot after commits are processed
+    createScatterplot(commits);
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
-    createScatterplot();
+    // Remove createScatterplot() here since it's already called in displayStats
     brushSelector();
-  });
-
+});
 
 function createScatterplot(commits) {
    const width = 1000;
@@ -120,6 +119,12 @@ function createScatterplot(commits) {
      width: width - margin.left - margin.right,
      height: height - margin.top - margin.bottom,
    };
+
+   // Make sure commits are properly passed
+   if (commits.length === 0) {
+      console.log('No commits data available');
+      return;
+   }
 
    const xScale = d3
      .scaleTime()
