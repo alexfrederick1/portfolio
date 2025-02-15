@@ -1,34 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="meta">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meta Analysis - Alex Frederick</title>
-    <link rel="stylesheet" href="../style.css"> <!-- Ensure you're referencing the correct path to your CSS -->
+    <link rel="stylesheet" href="../style.css">
     <script type="module" src="../global.js"></script>
     <script src="../index.js" type="module" defer></script>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <ul class="nav-list">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../projects/index.html">Projects</a></li>
-                <li><a href="../contact/index.html">Contact</a></li>
-                <li><a href="index.html">Meta Analysis</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../projects/index.html">Projects</a></li>
+            <li><a href="../contact/index.html">Contact</a></li>
+            <li><a href="index.html" class="active">Meta Analysis</a></li>
+        </ul>
+    </nav>
 
-    <main>
-        <h1>Meta Analysis</h1>
-        <p>This page includes stats about the code of this website.</p>
+    <h1>Meta Analysis: Code Stats</h1>
+    <p>This page includes stats about the code of this website:</p>
 
-        <!-- Stats content here -->
-        <dl class="stats">
-            <!-- Stats will go here -->
-        </dl>
-    </main>
+    <dl>
+        <dt>Typical Time of Day Code Was Written:</dt>
+        <dd id="typical-time">Loading...</dd>
+        <dt>Longest Line of Code:</dt>
+        <dd id="longest-line">Loading...</dd>
+        <dt>Total Lines of Code:</dt>
+        <dd id="total-lines">Loading...</dd>
+        <dt>Number of Functions:</dt>
+        <dd id="num-functions">Loading...</dd>
+        <dt>Number of Loops:</dt>
+        <dd id="num-loops">Loading...</dd>
+        <dt>Number of Conditional Statements:</dt>
+        <dd id="num-conditionals">Loading...</dd>
+    </dl>
+
 </body>
 </html>
