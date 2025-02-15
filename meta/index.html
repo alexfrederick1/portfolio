@@ -1,41 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" class="meta">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Analysis - Alex Frederick</title>
+    <title>Meta</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="main.js"></script>
     <link rel="stylesheet" href="../style.css">
     <script type="module" src="../global.js"></script>
-    <script src="../index.js" type="module" defer></script>
 </head>
 <body>
 
-    <nav>
-        <ul>
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../projects/index.html">Projects</a></li>
-            <li><a href="../contact/index.html">Contact</a></li>
-            <li><a href="index.html" class="active">Meta Analysis</a></li>
-        </ul>
-    </nav>
+    <h1>Meta</h1>
+    <p>Some stats about this repo.</p>
 
-    <h1>Meta Analysis: Code Stats</h1>
-    <p>This page includes stats about the code of this website:</p>
+    <div id="stats"></div>
 
-    <dl>
-        <dt>Typical Time of Day Code Was Written:</dt>
-        <dd id="typical-time">Loading...</dd>
-        <dt>Longest Line of Code:</dt>
-        <dd id="longest-line">Loading...</dd>
-        <dt>Total Lines of Code:</dt>
-        <dd id="total-lines">Loading...</dd>
-        <dt>Number of Functions:</dt>
-        <dd id="num-functions">Loading...</dd>
-        <dt>Number of Loops:</dt>
-        <dd id="num-loops">Loading...</dd>
-        <dt>Number of Conditional Statements:</dt>
-        <dd id="num-conditionals">Loading...</dd>
+    <h2>Commits by Time of Day</h2>
+    <div id="chart"></div>
+
+    <dl id="commit-tooltip" class="info tooltip" hidden>
+        <dt>Commit</dt>
+        <dd><a href="" id="commit-link" target="_blank"></a></dd>
+        <dt>Date</dt>
+        <dd id="commit-date"></dd>
+        <dt>Time</dt>
+        <dd id="commit-time"></dd>
+        <dt>Author</dt>
+        <dd id="commit-author"></dd>
+        <dt>Lines Edited</dt>
+        <dd id="commit-lines"></dd>
     </dl>
+
+    <p id="selection-count">No commits selected</p>
+
+    <dl id="language-breakdown" class="stats"></dl>
 
 </body>
 </html>

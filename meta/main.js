@@ -1,51 +1,60 @@
 let data = [];
 let commits = [];
 
-function loadData() {
-    d3.csv('loc.csv').then(function (loadedData) {
-      data = loadedData;
-      processCommits(data);
-      displayStats(data);
+// Step 1.1: Load the CSV file
+async function loadData() {
+    data = await d3.csv('loc.csv', (row) => ({
+        ...row,
+        line: Number(row.line), // Convert line to number
+        depth: Number(row.depth),
+        length: Number(row.length),
+        date: new Date(row.date + 'T00:00' + row.timezone),
+        datetime: new Date(row.datetime),
+    }));
+
+    processCommits(); // Process the commit data once the CSV is loaded
+    displayStats();   // Display the computed stats
+}
+
+// Step 1.2: Process commit data
+function processCommits() {
+    commits = d3.groups(data, (d) => d.commit).map(([commit, lines]) => {
+        let first = lines[0];
+        let { author, date, time, timezone, datetime } = first;
+
+        return {
+            id: commit,
+            url: 'https://github.com/YOUR_REPO/commit/' + commit,
+            author,
+            date,
+            time,
+            timezone,
+            datetime,
+            hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
+            totalLines: lines.length,
+        };
     });
-  }
-  
-  function processCommits(data) {
-    commits = [
-      { id: 1, author: 'Alice', datetime: '2025-02-13T08:00:00' },
-      { id: 2, author: 'Bob', datetime: '2025-02-13T09:00:00' }
-    ];
-  }
-  
-  function displayStats(data) {
+
+    console.log(commits); // Log commits to verify data
+}
+
+// Step 1.3: Display the stats
+function displayStats() {
     const dl = d3.select('#stats').append('dl').attr('class', 'stats');
-  
+    
     dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
     dl.append('dd').text(data.length);
-  
+
     dl.append('dt').text('Total commits');
     dl.append('dd').text(commits.length);
-  
-    const authors = d3.group(data, d => d.author);
-    dl.append('dt').text('Total authors');
-    dl.append('dd').text(authors.size);
-  
+
+    // Add more stats as needed, for example:
     const maxDepth = d3.max(data, d => d.depth);
     dl.append('dt').text('Maximum depth');
     dl.append('dd').text(maxDepth);
-  
-    const avgDepth = d3.mean(data, d => d.depth);
-    dl.append('dt').text('Average depth');
-    dl.append('dd').text(avgDepth.toFixed(2));
-  
-    const workByPeriod = d3.rollups(
-      data,
-      v => v.length,
-      d => new Date(d.datetime).toLocaleString('en', { hour: 'numeric' })
-    );
-    const maxPeriod = d3.greatest(workByPeriod, d => d[1])?.[0];
-    dl.append('dt').text('Time of day most work is done');
-    dl.append('dd').text(maxPeriod);
-  }
-  
-  loadData();
-  
+}
+
+// Wait until the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadData();
+});

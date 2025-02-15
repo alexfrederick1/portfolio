@@ -298,3 +298,27 @@ path {
   padding-right: 20px;
   display: inline-block;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+.stats {
+  font-size: 16px;
+}
+
+dt {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+dd {
+  margin: 0;
+  padding-left: 15px;
+}
+
