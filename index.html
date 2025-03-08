@@ -1,32 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" class="home">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alex Frederick: Personal site and portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <script type="module" src="global.js"></script>
-    <script src="index.js" type="module" defer></script>
+    <title>Meta</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="../style.css">
+    <script type="module" src="../global.js"></script>
 </head>
 <body>
 
-    
+<h1>Meta</h1>
+<p>Summary.</p>
 
-    <h1>Alex Frederick</h1>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
-    </p>
-    <img src="images/E85840C9-9E7D-40B0-9760-C0034A93A080.jpg" alt="A professional portrait of Alex Frederick" width="400" height="400">
+<div id="stats"></div>
 
-    <h2>Latest Projects</h2>
-    <div class="projects">
-        <!-- Dynamically added content will appear here -->
-    </div>
+<h2>Commits by Time of Day</h2>
 
-    <h2>GitHub Profile Stats</h2>
-    <div id="profile-stats">
-        <!-- GitHub profile stats information will be dynamically added here -->
-    </div>
+<!-- New: Slider for selecting date range -->
+<div id="slider-container" style="display: flex; align-items: baseline; margin-bottom: 1em;">
+    <label style="flex: 1;">Show commits until:
+        <input type="range" id="commit-slider" min="0" max="100" value="100" style="width: 80%;">
+    </label>
+    <time id="selectedTime" style="margin-left: auto;">Loading...</time>
+</div>
+
+<div id="chart"></div>
+
+<!-- Tooltip to display commit details -->
+<dl id="commit-tooltip" class="info tooltip" hidden>
+    <dt>Commit</dt>
+    <dd><a href="" id="commit-link" target="_blank"></a></dd>
+    <dt>Date</dt>
+    <dd id="commit-date"></dd>
+    <dt>Time</dt>
+    <dd id="commit-time"></dd>
+    <dt>Author</dt>
+    <dd id="commit-author"></dd>
+    <dt>Lines Edited</dt>
+    <dd id="commit-lines-edited"></dd>
+</dl>
+
+<p id="selection-count">No commits selected</p>
+
+<dl id="language-breakdown" class="stats"></dl>
 
 </body>
 </html>

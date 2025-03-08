@@ -1,5 +1,7 @@
 let data = [];
 let commits = [];
+let commitProgress = 100; // New: Progress variable for the slider
+let timeScale; // New: Time scale to map slider value to date
 
 async function loadData() {
     data = await d3.csv('loc.csv', (row) => ({
@@ -11,35 +13,42 @@ async function loadData() {
         datetime: new Date(row.datetime),
     }));
 
+    processCommits();
+
+    // New: Create a time scale for the slider based on commit dates
+    timeScale = d3.scaleTime()
+        .domain([d3.min(commits, d => d.datetime), d3.max(commits, d => d.datetime)])
+        .range([0, 100]);
+
     displayStats();  
 }
 
 function processCommits() {
     commits = d3
-      .groups(data, (d) => d.commit)
-      .map(([commit, lines]) => {
-        let first = lines[0];
-        let { author, date, time, timezone, datetime } = first;
-        let ret = {
-          id: commit,
-          url: 'https://github.com/pranavrajaram/portfolio/commit/' + commit,
-          author,
-          date,
-          time,
-          timezone,
-          datetime,
-          hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
-          totalLines: lines.length,
-        };
+        .groups(data, (d) => d.commit)
+        .map(([commit, lines]) => {
+            let first = lines[0];
+            let { author, date, time, timezone, datetime } = first;
+            let ret = {
+                id: commit,
+                url: 'https://github.com/alexfrederick1/portfolio/commit/' + commit,
+                author,
+                date,
+                time,
+                timezone,
+                datetime,
+                hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
+                totalLines: lines.length,
+            };
 
-        Object.defineProperty(ret, "lines", {
-            value: lines,
-            enumerable: false,
-            writable: true,
-            configurable: true,
-          });
-    
-          return ret;
+            Object.defineProperty(ret, "lines", {
+                value: lines,
+                enumerable: false,
+                writable: true,
+                configurable: true,
+            });
+
+            return ret;
         });
 }
 
@@ -90,14 +99,26 @@ function displayStats() {
     timeOfDay.append("dt").text("Most productive time of day");
     timeOfDay.append("dd").text(maxPeriod);
 
-    // Now call the scatterplot after commits are processed
     createScatterplot(commits);
+}
+
+// New: Function to update time based on slider
+function updateTime() {
+    const selectedTime = d3.select('#selectedTime');
+    const slider = d3.select('#commit-slider').node();
+    commitProgress = +slider.value;
+    const commitMaxTime = timeScale.invert(commitProgress);
+    selectedTime.text(commitMaxTime.toLocaleString("en", { dateStyle: "long", timeStyle: "short" }));
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
-    // Remove createScatterplot() here since it's already called in displayStats
     brushSelector();
+
+    const slider = d3.select('#commit-slider');
+    slider.on('input', updateTime);
+
+    updateTime();
 });
 
 function createScatterplot(commits) {
@@ -120,7 +141,6 @@ function createScatterplot(commits) {
      height: height - margin.top - margin.bottom,
    };
 
-   // Make sure commits are properly passed
    if (commits.length === 0) {
       console.log('No commits data available');
       return;
@@ -160,14 +180,5 @@ function createScatterplot(commits) {
      .append('g')
      .attr('transform', `translate(${usableArea.left}, 0)`)
      .call(yAxis);
-
-   const gridlines = svg
-     .append('g')
-     .attr('class', 'gridlines')
-     .attr('transform', `translate(${usableArea.left}, 0)`);
-
-   gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
-   gridlines
-     .selectAll('line')
-     .style('stroke', (d) => (d < 6 || d >= 18 ? 'blue' : 'orange'));
 }
+
